@@ -7,6 +7,7 @@ LOCAL_PATH := $(my_path)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := su
+LOCAL_CLANG := false
 LOCAL_MODULE_TAGS := eng debug optional
 LOCAL_FORCE_STATIC_EXECUTABLE := true
 LOCAL_STATIC_LIBRARIES := libc libcutils libselinux
@@ -39,3 +40,20 @@ ALL_MODULES.$(LOCAL_MODULE).INSTALLED := \
     $(ALL_MODULES.$(LOCAL_MODULE).INSTALLED) $(SUPERUSER_RC) $(SUPERUSER_MARKER)
 
 endif
+
+LOCAL_PATH := $(my_path)/Superuser
+include $(CLEAR_VARS)
+
+#SUPERUSER_PACKAGE := com.koushikdutta.superuser
+
+#LOCAL_STATIC_JAVA_LIBRARIES := android-support-v4
+#LOCAL_STATIC_JAVA_LIBRARIES += libarity
+
+LOCAL_PACKAGE_NAME := Superuser
+
+LOCAL_SRC_FILES := $(call all-java-files-under,src) $(call all-java-files-under,../Widgets/src)
+
+LOCAL_AAPT_INCLUDE_ALL_RESOURCES := true
+LOCAL_AAPT_FLAGS := --extra-packages com.koushikdutta.widgets -S $(LOCAL_PATH)/../Widgets/Widgets/res --auto-add-overlay --rename-manifest-package $(SUPERUSER_PACKAGE)
+
+include $(BUILD_PACKAGE)
